@@ -12,7 +12,7 @@ const (
 )
 
 func Hello(name, language string) string {
-	return greetingPrefix(language) + normalizeName(name)
+	return greetingPrefix(language) + normalizeName(namte)
 }
 
 func normalizeName(name string) string {
