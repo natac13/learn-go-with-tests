@@ -1,4 +1,4 @@
-package main
+package helloworld
 
 import "fmt"
 
@@ -12,7 +12,7 @@ const (
 )
 
 func Hello(name, language string) string {
-	return greetingPrefix(language) + normalizeName(namte)
+	return greetingPrefix(language) + normalizeName(name)
 }
 
 func normalizeName(name string) string {
