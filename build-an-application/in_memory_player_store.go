@@ -2,7 +2,6 @@ package main
 
 import "sync"
 
-// in_memory_player_store.go
 func NewInMemoryPlayerStore() *InMemoryPlayerStore {
 	return &InMemoryPlayerStore{map[string]int{}, sync.RWMutex{}}
 }
@@ -22,4 +21,16 @@ func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
 	i.mu.RLock()
 	defer i.mu.RUnlock()
 	return i.store[name]
+}
+
+func (i *InMemoryPlayerStore) GetLeague() []Player {
+	i.mu.RLock()
+	defer i.mu.RUnlock()
+
+	var league []Player
+	for name, wins := range i.store {
+		league = append(league, Player{name, wins})
+	}
+
+	return league
 }
