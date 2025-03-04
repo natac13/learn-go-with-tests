@@ -1,4 +1,4 @@
-package main
+package poker
 
 import (
 	"os"
@@ -15,7 +15,7 @@ func TestFileSystemStore(t *testing.T) {
 		defer clean()
 		store, err := NewFileSystemPlayerStore(database)
 
-		assertNoError(t, err)
+		AssertNoError(t, err)
 
 		got := store.GetLeague()
 
@@ -24,11 +24,11 @@ func TestFileSystemStore(t *testing.T) {
 			{"Cleo", 10},
 		}
 
-		assertLeague(t, got, want)
+		AssertLeague(t, got, want)
 
 		// read again
 		got = store.GetLeague()
-		assertLeague(t, got, want)
+		AssertLeague(t, got, want)
 	})
 
 	t.Run("get player score", func(t *testing.T) {
@@ -39,7 +39,7 @@ func TestFileSystemStore(t *testing.T) {
 		defer clean()
 
 		store, err := NewFileSystemPlayerStore(database)
-		assertNoError(t, err)
+		AssertNoError(t, err)
 
 		got := store.GetPlayerScore("Chris")
 
@@ -54,7 +54,7 @@ func TestFileSystemStore(t *testing.T) {
 		defer clean()
 
 		store, err := NewFileSystemPlayerStore(database)
-		assertNoError(t, err)
+		AssertNoError(t, err)
 
 		store.RecordWin("Chris")
 		got := store.GetPlayerScore("Chris")
@@ -70,7 +70,7 @@ func TestFileSystemStore(t *testing.T) {
 		defer clean()
 
 		store, err := NewFileSystemPlayerStore(database)
-		assertNoError(t, err)
+		AssertNoError(t, err)
 
 		store.RecordWin("Pepper")
 		got := store.GetPlayerScore("Pepper")
@@ -83,7 +83,7 @@ func TestFileSystemStore(t *testing.T) {
 		defer clean()
 		_, err := NewFileSystemPlayerStore(database)
 
-		assertNoError(t, err)
+		AssertNoError(t, err)
 	})
 
 	t.Run("league sorted", func(t *testing.T) {
@@ -93,7 +93,7 @@ func TestFileSystemStore(t *testing.T) {
 		]`)
 		defer clean()
 		store, err := NewFileSystemPlayerStore(database)
-		assertNoError(t, err)
+		AssertNoError(t, err)
 
 		got := store.GetLeague()
 
@@ -102,10 +102,10 @@ func TestFileSystemStore(t *testing.T) {
 			{"Cleo", 10},
 		}
 
-		assertLeague(t, got, want)
+		AssertLeague(t, got, want)
 
 		got = store.GetLeague()
-		assertLeague(t, got, want)
+		AssertLeague(t, got, want)
 	})
 }
 
@@ -131,10 +131,4 @@ func createTempFile(t testing.TB, initialData string) (*os.File, func()) {
 		os.Remove(tmpfile.Name())
 	}
 	return tmpfile, removeFile
-}
-func assertNoError(t testing.TB, err error) {
-	t.Helper()
-	if err != nil {
-		t.Fatalf("did not expect an error but got one, %v", err)
-	}
 }

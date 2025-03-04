@@ -1,4 +1,4 @@
-package main
+package poker
 
 import (
 	"encoding/json"
@@ -10,7 +10,7 @@ import (
 type PlayerStore interface {
 	GetPlayerScore(name string) int
 	RecordWin(name string)
-	GetLeague() []Player
+	GetLeague() League
 }
 
 type PlayerServer struct {
@@ -37,12 +37,12 @@ func (p *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewEncoder(w).Encode(p.getLeagueTable())
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		return
 
 	}
-	w.WriteHeader(http.StatusOK)
 }
 
-func (p *PlayerServer) getLeagueTable() []Player {
+func (p *PlayerServer) getLeagueTable() League {
 	return p.store.GetLeague()
 }
 
